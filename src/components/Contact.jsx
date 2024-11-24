@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
+import map from '../assets/map.svg';
 
 import { styles } from "../styles";
 // import { EarthCanvas } from "./canvas";
@@ -125,10 +126,12 @@ const Contact = () => {
 
       <motion.div
         variants={slideIn("right", "tween", 0.2, 1)}
-        className='xl:flex-1 xl:h-auto md:h-[550px] h-[350px]'
+        className='xl:flex-1 xl:h-auto flex items-center justify-center'
       >
-        {/* <EarthCanvas /> */}
+        <img src={map} alt="description of image" className="w-full object-cover" />
       </motion.div>
+
+
     </div>
   );
 };

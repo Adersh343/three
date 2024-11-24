@@ -24,13 +24,13 @@ const ProjectCard = ({
           rotate: 2,  // Optional: Rotate the card a little
           transition: { type: "spring", stiffness: 300, damping: 20 },
         }}
-        className='bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full'
+        className='bg-tertiary p-5 rounded-2xl  w-full'
       >
-        <div className='relative w-full h-[230px]'>
+        <div className='relative w-full '>
           <img
             src={image}
             alt='project_image'
-            className='w-full h-full object-cover rounded-2xl'
+            className='w-full h-full object-cover  rounded-2xl'
           />
 
           <div className='absolute inset-0 flex justify-end m-3 card-img_hover'>
@@ -88,7 +88,7 @@ const Works = () => {
         </motion.p>
       </div>
 
-      <div className='mt-20 flex flex-wrap gap-7'>
+      <div className='mt-20 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
         {projects.map((project, index) => (
           <ProjectCard key={`project-${index}`} index={index} {...project} />
         ))}
