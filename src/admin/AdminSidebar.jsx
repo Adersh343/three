@@ -31,7 +31,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li className="mb-4">
-          <Link to="/admin/experi" className="text-lg">
+          <Link to="/admin/testimonials" className="text-lg">
             Testimonials
           </Link>
         </li>

@@ -1,15 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { db, storage } from "../../firebase"; // Ensure to replace with your actual firebase import
+import { db, storage } from "../../firebase"; 
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { MdWork, MdEdit, MdDelete, MdAdd } from "react-icons/md"; // Icons for work, edit, delete, and add
+import { MdWork, MdEdit, MdDelete, MdAdd } from "react-icons/md"; 
 import "react-vertical-timeline-component/style.min.css";
 import { VerticalTimeline, VerticalTimelineElement } from "react-vertical-timeline-component";
 
 // ExperienceFormModal Component
 const ExperienceFormModal = ({ isOpen, closeModal, experienceToEdit }) => {
-  const [experience, setExperience] = useState(experienceToEdit || { title: "", company_name: "", date: "", points: ["", "", "", ""], image: "" });
+  const [experience, setExperience] = useState({
+    title: "",
+    company_name: "",
+    date: "",
+    points: ["", "", "", ""],
+    image: "",
+  });
+
   const [imageFile, setImageFile] = useState(null);
+
+  // Sync the form state with the experienceToEdit prop
+  useEffect(() => {
+    if (experienceToEdit) {
+      setExperience(experienceToEdit);
+    }
+  }, [experienceToEdit]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,19 +46,16 @@ const ExperienceFormModal = ({ isOpen, closeModal, experienceToEdit }) => {
     let imageUrl = experience.image;
 
     if (imageFile) {
-      // Upload image to Firebase Storage
       const storageRef = ref(storage, `experiences/${Date.now()}-${imageFile.name}`);
       const uploadResult = await uploadBytes(storageRef, imageFile);
-      imageUrl = await getDownloadURL(uploadResult.ref); // Get the URL of the uploaded image
+      imageUrl = await getDownloadURL(uploadResult.ref); 
     }
 
     if (experienceToEdit) {
-      // Update the existing experience
       const experienceRef = doc(db, "experiences", experienceToEdit.id);
       await updateDoc(experienceRef, { ...experience, image: imageUrl });
       alert("Experience updated successfully!");
     } else {
-      // Add a new experience
       await addDoc(collection(db, "experiences"), { ...experience, image: imageUrl });
       alert("Experience added successfully!");
     }
@@ -157,8 +168,8 @@ const ExperiencesDisplay = () => {
   };
 
   const handleAdd = () => {
-    setExperienceToEdit(null); // Reset editing state
-    setIsModalOpen(true); // Open modal
+    setExperienceToEdit(null); 
+    setIsModalOpen(true); 
   };
 
   return (
