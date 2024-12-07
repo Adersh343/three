@@ -1,38 +1,38 @@
-import { BrowserRouter } from "react-router-dom";
-import Hero from "./components/Hero";
-import Navbar from "./components/Navbar";
-import About from "./components/About";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LandingPages from "./pages/LandingPages";
+import UserLayout from "./pages/UserLayout";
+import AdminLayout from "./admin/AdminLayout";
+import AdminPanel from "./admin/AdminPanel";
 import Experience from "./components/Experience";
-import Tech from "./components/Tech";
-import Works from "./components/Works";
-import Feedbacks from "./components/Feedbacks";
-import Contact from "./components/Contact";
-import Footer from "./components/Footer";
+import ProjectsDisplay from "./admin/ProjectsDisplay";
+import ExperiencesDisplay from "./admin/ExperiencesDisplay";
+import Testimonials from "./admin/Testimonials";
+import AddAbout from "./admin/Addabout";
+import TechAdmin from "./admin/TechAdmin";
+import AdminContacts from "./admin/ContactAdmin";
 
 
 const App = () => {
   return (
     <BrowserRouter>
-      <div className='relative z-0 bg-[#000606]'>
-        <div className='bg-hero-pattern bg-cover bg-no-repeat bg-center'>
-          <Navbar />
-          <Hero />
-        </div>
-         <About />
-        <Experience />
-
-        <Tech />
-        <Works />
-
-        <Feedbacks />
-        <div className='relative z-0'>
-          <Contact />
-          {/* <StarsCanvas /> */}
-        </div> 
-        <Footer/>
-      </div>
+     
+        <Routes>
+          <Route element={<UserLayout/>}>
+            <Route path="/" element={<LandingPages />} />
+          </Route>
+          <Route element={<AdminLayout/>}>
+            <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/admin/experi" element={<ExperiencesDisplay />} />
+            <Route path="/admin/projects" element={<ProjectsDisplay />} />
+            <Route path="/admin/testimonials" element={<Testimonials />} />
+            <Route path="/admin/addabout" element={<AddAbout />} />
+            <Route path="/admin/techadmin" element={<TechAdmin />} />
+            <Route path="/admin/contact" element={<AdminContacts />} />
+          </Route>
+        </Routes>
+    
     </BrowserRouter>
   );
-}
+};
 
 export default App;

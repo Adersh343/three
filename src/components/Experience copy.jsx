@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 import { motion } from "framer-motion";
-import { db } from "../../firebase"; // Import firebase configuration
-import { collection, getDocs } from "firebase/firestore"; // Firestore methods
 
 import "react-vertical-timeline-component/style.min.css";
+
 import { styles } from "../styles";
+import { experiences } from "../constants";
 import { SectionWrapper } from "../hoc";
 import { textVariant } from "../utils/motion";
 
@@ -25,7 +25,7 @@ const ExperienceCard = ({ experience }) => {
       icon={
         <div className='flex justify-center items-center w-full h-full'>
           <img
-            src={experience.image} // Ensure this is the correct image URL or path from Firestore
+            src={experience.icon}
             alt={experience.company_name}
             className='w-[60%] h-[60%] object-contain'
           />
@@ -57,28 +57,6 @@ const ExperienceCard = ({ experience }) => {
 };
 
 const Experience = () => {
-  const [experiences, setExperiences] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchExperiences = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "experiences"));
-        const experiencesData = querySnapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-        setExperiences(experiencesData);
-      } catch (error) {
-        console.error("Error fetching experiences: ", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchExperiences();
-  }, []);
-
   return (
     <>
       <motion.div variants={textVariant()}>
@@ -90,20 +68,16 @@ const Experience = () => {
         </h2>
       </motion.div>
 
-      {loading ? (
-        <div className="text-center text-white">Loading...</div>
-      ) : (
-        <div className='mt-20 flex flex-col'>
-          <VerticalTimeline>
-            {experiences.map((experience) => (
-              <ExperienceCard
-                key={`experience-${experience.id}`}
-                experience={experience}
-              />
-            ))}
-          </VerticalTimeline>
-        </div>
-      )}
+      <div className='mt-20 flex flex-col'>
+        <VerticalTimeline>
+          {experiences.map((experience, index) => (
+            <ExperienceCard
+              key={`experience-${index}`}
+              experience={experience}
+            />
+          ))}
+        </VerticalTimeline>
+      </div>
     </>
   );
 };
