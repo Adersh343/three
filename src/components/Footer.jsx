@@ -25,9 +25,9 @@ const Footer = () => {
             <div className="col-span-2 md:col-span-3 lg:col-span-2 lg:pr-8">
               <img className="w-auto h-20" src={logo} alt="Logo" />
               <p className="text-base leading-relaxed text-gray-600 mt-7">
-                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
-                Velit officia consequat duis enim velit mollit.
-              </p>
+  We are a leading IT solutions provider, offering a wide range of services from software development and cloud solutions to IT consulting and system integration. Our expertise helps businesses streamline their processes, innovate, and stay ahead in an increasingly digital world.
+</p>
+
               <ul className="flex items-center space-x-3 mt-9">
                 <li>
                   <a
