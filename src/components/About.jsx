@@ -60,7 +60,6 @@ const About = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log(servicesList)
         setServices(servicesList); // Set the fetched services data
       } catch (error) {
         console.error("Error fetching services: ", error);
