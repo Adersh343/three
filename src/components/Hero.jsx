@@ -63,8 +63,8 @@ const Hero = () => {
             {heroData.heading || "Hi, Byteedoc"} <span className="text-secondary2">{heroData.subheading ? heroData.subheading : "Coding Family"}</span>
           </h1>
           <p className={`${styles.heroSubText} mt-2 text-white-100`}>
-            {heroData.subheading || "we are here for"} <br className="sm:block hidden" />
-            {heroData.subheading ? heroData.subheading : "interfaces and web applications"}
+            { "we are here for"} <br className="sm:block hidden" />
+            {"interfaces and web applications"}
           </p>
         </div>
 
