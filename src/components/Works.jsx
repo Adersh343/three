@@ -27,9 +27,11 @@ const ProjectCard = ({
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="bg-tertiary p-5 rounded-2xl w-full"
+        className="bg-tertiary p-5 rounded-2xl w-full cursor-pointer"onClick={toggleModal}
+
       >
-            <div className='relative w-full '>
+        <div className='relative w-full cursor-pointer ' onClick={toggleModal}
+        >
           <img
             src={imageUrl}
             alt='project_image'
