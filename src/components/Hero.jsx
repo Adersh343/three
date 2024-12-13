@@ -99,7 +99,7 @@ const Hero = () => {
 
       {/* Fixed Vertical Download Button */}
       {heroData.cvUrl && (
-        <div className="fixed right-8 top-1/2 transform -translate-y-1/2 bg-secondary text-white py-3 px-6 rounded-full cursor-pointer shadow-lg hover:bg-primary/20 transition duration-300 z-10">
+        <div className="absolute right-8  bottom-0  transform -translate-y-1/2 bg-secondary text-white py-3 px-6 rounded-full cursor-pointer shadow-lg hover:bg-primary/20 transition duration-300 z-10">
           <button onClick={handleDownloadCv} className="flex items-center justify-center">
             <span className="text-lg font-semibold">Download CV</span>
           </button>
