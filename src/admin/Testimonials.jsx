@@ -19,7 +19,7 @@ const Testimonials = () => {
   // Fetch testimonials from Firestore
   useEffect(() => {
     const fetchTestimonials = async () => {
-      const querySnapshot = await getDocs(collection(db, 'testimonials'));
+      const querySnapshot = await getDocs(collection(db, 'byteedoctestimonials'));
       const testimonialsData = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
@@ -37,7 +37,7 @@ const Testimonials = () => {
   // Upload image to Firebase Storage
   const uploadImage = (file) => {
     return new Promise((resolve, reject) => {
-      const storageRef = ref(storage, `testimonials/${file.name}`);
+      const storageRef = ref(storage, `byteedoctestimonials/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
       uploadTask.on(
@@ -60,7 +60,7 @@ const Testimonials = () => {
         const imageUrl = await uploadImage(imageFile);
 
         // Add testimonial data to Firestore
-        const docRef = await addDoc(collection(db, 'testimonials'), {
+        const docRef = await addDoc(collection(db, 'byteedoctestimonials'), {
           ...newTestimonial,
           image: imageUrl,
         });
@@ -92,7 +92,7 @@ const Testimonials = () => {
           updatedData.image = imageUrl;
         }
 
-        const projectRef = doc(db, 'testimonials', testimonialsList[editTestimonial].id);
+        const projectRef = doc(db, 'byteedoctestimonials', testimonialsList[editTestimonial].id);
         await updateDoc(projectRef, updatedData);
 
         setTestimonialsList(
@@ -120,7 +120,7 @@ const Testimonials = () => {
   // Handle Delete
   const handleDeleteTestimonial = async (id) => {
     try {
-      await deleteDoc(doc(db, 'testimonials', id));
+      await deleteDoc(doc(db, 'byteedoctestimonials', id));
       setTestimonialsList(testimonialsList.filter((testimonial) => testimonial.id !== id));
     } catch (error) {
       console.error('Error deleting testimonial: ', error);

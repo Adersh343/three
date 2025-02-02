@@ -14,7 +14,7 @@ const Tech = () => {
   // Fetch Technologies from Firestore
   const fetchTechnologies = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, "technologies"));
+      const querySnapshot = await getDocs(collection(db, "byteedoctechnologies"));
       const fetchedTechnologies = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
@@ -44,7 +44,7 @@ const Tech = () => {
     // If a new image is selected, upload it to Firebase Storage
     let imageUrl = "";
     if (techIcon) {
-      const storageRef = ref(storage, `technologies/${techIcon.name}`);
+      const storageRef = ref(storage, `byteedoctechnologies/${techIcon.name}`);
       const uploadTask = uploadBytesResumable(storageRef, techIcon);
       
       uploadTask.on(
@@ -73,14 +73,14 @@ const Tech = () => {
   const saveTechnology = async (imageUrl) => {
     if (selectedTech) {
       // Edit Technology
-      const techRef = doc(db, "technologies", selectedTech.id);
+      const techRef = doc(db, "byteedoctechnologies", selectedTech.id);
       await updateDoc(techRef, {
         name: techName,
         icon: imageUrl || selectedTech.icon, // Keep old icon if no new image
       });
     } else {
       // Add New Technology
-      await addDoc(collection(db, "technologies"), {
+      await addDoc(collection(db, "byteedoctechnologies"), {
         name: techName,
         icon: imageUrl,
       });
@@ -103,7 +103,7 @@ const Tech = () => {
   // Handle Delete Technology
   const handleDelete = async (id) => {
     try {
-      const techRef = doc(db, "technologies", id);
+      const techRef = doc(db, "byteedoctechnologies", id);
       await deleteDoc(techRef);
       fetchTechnologies();
     } catch (error) {

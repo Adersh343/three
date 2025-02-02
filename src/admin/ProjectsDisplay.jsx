@@ -23,7 +23,7 @@ const ProjectsDisplay = () => {
   // Fetch projects from Firestore
   useEffect(() => {
     const fetchProjects = async () => {
-      const querySnapshot = await getDocs(collection(db, "projects"));
+      const querySnapshot = await getDocs(collection(db, "byteedocprojects"));
       const projectsData = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setProjects(projectsData);
     };
@@ -35,7 +35,7 @@ const ProjectsDisplay = () => {
   const handleImageUpload = async () => {
     if (!imageFile) return;
 
-    const storageRef = ref(storage, `project-screenshots/${imageFile.name}`);
+    const storageRef = ref(storage, `byteedocproject-screenshots/${imageFile.name}`);
     await uploadBytes(storageRef, imageFile);
     const imageUrl = await getDownloadURL(storageRef);
     return imageUrl;
@@ -52,7 +52,7 @@ const ProjectsDisplay = () => {
         imageUrl = await handleImageUpload();
       }
 
-      const docRef = await addDoc(collection(db, "projects"), { ...newProject, imageUrl });
+      const docRef = await addDoc(collection(db, "byteedocprojects"), { ...newProject, imageUrl });
       setProjects([...projects, { id: docRef.id, ...newProject, imageUrl }]);
       setNewProject({ name: "", description: "", githubLink: "", liveDemoLink: "", tags: [], imageUrl: "" });
       setImageFile(null); // Reset the image file
@@ -72,7 +72,7 @@ const ProjectsDisplay = () => {
         imageUrl = await handleImageUpload(); // Upload new image if provided
       }
 
-      const projectRef = doc(db, "projects", editProject.id);
+      const projectRef = doc(db, "byteedocprojects", editProject.id);
       await updateDoc(projectRef, { ...editProject, imageUrl });
 
       setProjects(projects.map((project) => (project.id === editProject.id ? { ...editProject, imageUrl } : project)));
@@ -85,7 +85,7 @@ const ProjectsDisplay = () => {
 
   // Handle delete project
   const handleDeleteProject = async (id) => {
-    await deleteDoc(doc(db, "projects", id));
+    await deleteDoc(doc(db, "byteedocprojects", id));
     setProjects(projects.filter((project) => project.id !== id));
   };
 

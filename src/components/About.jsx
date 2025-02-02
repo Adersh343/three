@@ -35,7 +35,7 @@ const About = () => {
   useEffect(() => {
     const fetchAboutText = async () => {
       try {
-        const aboutDocRef = doc(db, 'about', 'aboutText'); // Reference to Firestore document
+        const aboutDocRef = doc(db, 'byteedocabout', 'byteedocaboutText'); // Reference to Firestore document
         const aboutDocSnap = await getDoc(aboutDocRef);   // Correct function for a single document
 
         if (aboutDocSnap.exists()) {
@@ -55,7 +55,7 @@ const About = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "services"));
+        const querySnapshot = await getDocs(collection(db, "byteedocservices"));
         const servicesList = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),

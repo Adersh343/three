@@ -8,7 +8,7 @@ const AdminContacts = () => {
   useEffect(() => {
     // Fetch contacts from Firestore
     const fetchContacts = async () => {
-      const querySnapshot = await getDocs(collection(db, "contacts"));
+      const querySnapshot = await getDocs(collection(db, "byteedoccontacts"));
       const contactsList = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -21,7 +21,7 @@ const AdminContacts = () => {
 
   // Delete contact by ID
   const handleDelete = async (id) => {
-    await deleteDoc(doc(db, "contacts", id));
+    await deleteDoc(doc(db, "byteedoccontacts", id));
     setContacts(contacts.filter((contact) => contact.id !== id));
   };
 

@@ -46,17 +46,17 @@ const ExperienceFormModal = ({ isOpen, closeModal, experienceToEdit }) => {
     let imageUrl = experience.image;
 
     if (imageFile) {
-      const storageRef = ref(storage, `experiences/${Date.now()}-${imageFile.name}`);
+      const storageRef = ref(storage, `byteedocexperiences/${Date.now()}-${imageFile.name}`);
       const uploadResult = await uploadBytes(storageRef, imageFile);
       imageUrl = await getDownloadURL(uploadResult.ref); 
     }
 
     if (experienceToEdit) {
-      const experienceRef = doc(db, "experiences", experienceToEdit.id);
+      const experienceRef = doc(db, "byteedocexperiences", experienceToEdit.id);
       await updateDoc(experienceRef, { ...experience, image: imageUrl });
       alert("Experience updated successfully!");
     } else {
-      await addDoc(collection(db, "experiences"), { ...experience, image: imageUrl });
+      await addDoc(collection(db, "byteedocexperiences"), { ...experience, image: imageUrl });
       alert("Experience added successfully!");
     }
     closeModal();
@@ -149,7 +149,7 @@ const ExperiencesDisplay = () => {
 
   useEffect(() => {
     const fetchExperiences = async () => {
-      const querySnapshot = await getDocs(collection(db, "experiences"));
+      const querySnapshot = await getDocs(collection(db, "byteedocexperiences"));
       const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
       setExperiences(data);
     };
@@ -158,7 +158,7 @@ const ExperiencesDisplay = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    await deleteDoc(doc(db, "experiences", id));
+    await deleteDoc(doc(db, "byteedocexperiences", id));
     setExperiences(experiences.filter((exp) => exp.id !== id));
   };
 

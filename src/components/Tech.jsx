@@ -11,7 +11,7 @@ const Tech = () => {
   useEffect(() => {
     const fetchTechnologies = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "technologies"));
+        const querySnapshot = await getDocs(collection(db, "byteedoctechnologies"));
         const fetchedTechnologies = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),

@@ -55,7 +55,7 @@ const Feedbacks = () => {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "testimonials"));
+        const querySnapshot = await getDocs(collection(db, "byteedoctestimonials"));
         const testimonialsList = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),

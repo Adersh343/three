@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { db, storage } from '../../firebase';  // Ensure correct import path
+import { db, storage } from '../../firebase'; 
 import { doc, getDoc, setDoc, collection, addDoc, getDocs, deleteDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage';
 
@@ -14,19 +14,18 @@ const AdminPanel = () => {
   const [newTitle, setNewTitle] = useState(''); // Title input for the modal
   const [newIcon, setNewIcon] = useState(null); // File input for the modal
 
-  // Fetch About Text and Existing Services
   useEffect(() => {
     const fetchAboutTextAndServices = async () => {
       try {
         // Fetch About Text
-        const aboutDocRef = doc(db, 'about', 'aboutText');
+        const aboutDocRef = doc(db, 'byteedocabout', 'byteedocaboutText');
         const aboutDocSnap = await getDoc(aboutDocRef);
         if (aboutDocSnap.exists()) {
           setAboutText(aboutDocSnap.data().text);
         }
 
         // Fetch Services
-        const servicesQuery = await getDocs(collection(db, 'services'));
+        const servicesQuery = await getDocs(collection(db, 'byteedocservices'));
         const servicesList = servicesQuery.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
@@ -64,7 +63,7 @@ const AdminPanel = () => {
   const handleSave = async () => {
     if (aboutText.trim() !== '') {
       try {
-        const aboutDocRef = doc(db, 'about', 'aboutText');
+        const aboutDocRef = doc(db, 'byteedocabout', 'byteedocaboutText');
         await setDoc(aboutDocRef, { text: aboutText }, { merge: true });
       } catch (error) {
         console.error('Error saving About Text:', error);
@@ -80,7 +79,7 @@ const AdminPanel = () => {
       }
 
       try {
-        const storageRef = ref(storage, `service_icons/${service.icon.name}`);
+        const storageRef = ref(storage, `byteedocservice_icons/${service.icon.name}`);
         const uploadTask = uploadBytesResumable(storageRef, service.icon);
 
         uploadTask.on(
@@ -92,12 +91,12 @@ const AdminPanel = () => {
           },
           async () => {
             const iconURL = await getDownloadURL(uploadTask.snapshot.ref);
-            await addDoc(collection(db, 'services'), {
+            await addDoc(collection(db, 'byteedocservices'), {
               title: service.title,
               icon: iconURL,
             });
 
-            const servicesQuery = await getDocs(collection(db, 'services'));
+            const servicesQuery = await getDocs(collection(db, 'byteedocservices'));
             const servicesList = servicesQuery.docs.map(doc => ({
               id: doc.id,
               ...doc.data()
@@ -124,7 +123,7 @@ const AdminPanel = () => {
     try {
       let iconURL = editingService.icon;
       if (newIcon) {
-        const storageRef = ref(storage, `service_icons/${newIcon.name}`);
+        const storageRef = ref(storage, `byteedocservice_icons/${newIcon.name}`);
         const uploadTask = uploadBytesResumable(storageRef, newIcon);
         
         // Upload new icon
@@ -137,7 +136,7 @@ const AdminPanel = () => {
       }
 
       // Update service in Firestore
-      const serviceDocRef = doc(db, 'services', editingService.id);
+      const serviceDocRef = doc(db, 'byteedocservices', editingService.id);
       await setDoc(serviceDocRef, { title: newTitle, icon: iconURL }, { merge: true });
 
       // Close the modal and reset state
@@ -163,7 +162,7 @@ const AdminPanel = () => {
       const iconRef = ref(storage, iconURL);
       await deleteObject(iconRef);
 
-      const serviceDocRef = doc(db, 'services', serviceId);
+      const serviceDocRef = doc(db, 'byteedocservices', serviceId);
       await deleteDoc(serviceDocRef);
 
       const updatedServices = existingServices.filter((service) => service.id !== serviceId);

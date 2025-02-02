@@ -19,7 +19,7 @@ const AdminHeroSection = () => {
   // Fetch current Hero Section and CV data from Firestore
   useEffect(() => {
     const fetchHeroData = async () => {
-      const docRef = doc(db, "heroSection", "1");  // Document with ID "1"
+      const docRef = doc(db, "byteedocheroSection", "1");  // Document with ID "1"
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const data = docSnap.data();
@@ -32,7 +32,7 @@ const AdminHeroSection = () => {
       }
 
       // Fetch CV data
-      const cvDocRef = doc(db, "cvSection", "1");  // Document with ID "1" for CV
+      const cvDocRef = doc(db, "byteedoccvSection", "1");  // Document with ID "1" for CV
       const cvDocSnap = await getDoc(cvDocRef);
       if (cvDocSnap.exists()) {
         const cvData = cvDocSnap.data();
@@ -77,7 +77,7 @@ const AdminHeroSection = () => {
       let imageUrl = "";
       if (imageFile) {
         // Step 1: Upload image to Firebase Storage
-        const storageRef = ref(storage, `hero-images/${imageFile.name}`);
+        const storageRef = ref(storage, `byteedochero-images/${imageFile.name}`);
         const uploadTask = uploadBytesResumable(storageRef, imageFile);
 
         // Step 2: Track upload progress
@@ -96,7 +96,7 @@ const AdminHeroSection = () => {
             // Step 3: Get the download URL after the upload is complete
             imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
             // Step 4: Update Firestore with the new data
-            const docRef = doc(db, "heroSection", "1");
+            const docRef = doc(db, "byteedocheroSection", "1");
             await setDoc(docRef, {
               heading: heading,
               subheading: subheading,
@@ -108,7 +108,7 @@ const AdminHeroSection = () => {
         );
       } else {
         // If no image selected, just update Firestore with text data
-        const docRef = doc(db, "heroSection", "1");
+        const docRef = doc(db, "byteedocheroSection", "1");
         await setDoc(docRef, {
           heading: heading,
           subheading: subheading,
@@ -118,7 +118,7 @@ const AdminHeroSection = () => {
 
       // Handle CV upload if a file is selected
       if (cvFile) {
-        const cvRef = ref(storage, `cv-files/${cvFile.name}`);
+        const cvRef = ref(storage, `byteedoccv-files/${cvFile.name}`);
         const cvUploadTask = uploadBytesResumable(cvRef, cvFile);
 
         cvUploadTask.on(
@@ -136,7 +136,7 @@ const AdminHeroSection = () => {
             const cvDownloadUrl = await getDownloadURL(cvUploadTask.snapshot.ref);
 
             // Step 5: Save the CV URL in Firestore
-            const cvDocRef = doc(db, "cvSection", "1");
+            const cvDocRef = doc(db, "byteedoccvSection", "1");
             await setDoc(cvDocRef, { cvUrl: cvDownloadUrl });
             setCvUrl(cvDownloadUrl);  // Update CV URL in state
 
@@ -165,7 +165,7 @@ const AdminHeroSection = () => {
         await deleteObject(cvRef);
 
         // Remove CV URL from Firestore
-        const cvDocRef = doc(db, "cvSection", "1");
+        const cvDocRef = doc(db, "byteedoccvSection", "1");
         await deleteDoc(cvDocRef);
 
         alert("CV deleted successfully!");

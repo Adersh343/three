@@ -63,7 +63,7 @@ const Experience = () => {
   useEffect(() => {
     const fetchExperiences = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "experiences"));
+        const querySnapshot = await getDocs(collection(db, "byteedocexperiences"));
         const experiencesData = querySnapshot.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,

@@ -17,7 +17,7 @@ const Hero = () => {
     // Function to fetch hero data from Firebase
     const fetchHeroData = async () => {
       try {
-        const docRef = doc(db, "heroSection", "1"); // Assuming you have a document in Firestore with ID "1"
+        const docRef = doc(db, "byteedocheroSection", "1"); // Assuming you have a document in Firestore with ID "1"
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           setHeroData(docSnap.data());
@@ -26,7 +26,7 @@ const Hero = () => {
         }
 
         // Fetch CV URL from Firestore (assuming it is saved in a separate "cvSection" document)
-        const cvDocRef = doc(db, "cvSection", "1"); // Adjust according to your Firestore structure
+        const cvDocRef = doc(db, "byteedoccvSection", "1"); // Adjust according to your Firestore structure
         const cvDocSnap = await getDoc(cvDocRef);
         if (cvDocSnap.exists()) {
           setHeroData(prevData => ({

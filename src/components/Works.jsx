@@ -27,17 +27,18 @@ const ProjectCard = ({
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="bg-tertiary p-5 rounded-2xl w-full cursor-pointer"onClick={toggleModal}
+        className="bg-tertiary p-5 rounded-2xl w-full cursor-pointer" onClick={toggleModal}
 
       >
         <div className='relative w-full cursor-pointer ' onClick={toggleModal}
         >
-          <img
-            src={imageUrl}
-            alt='project_image'
-            className='w-full h-full object-cover  rounded-2xl'
-          />
-
+          <div className='w-full h-[200px]  bg-gradient-to-r from-secondary to-white flex justify-center items-center rounded-2xl'>
+            <img
+              src={imageUrl}  // Example icon URL
+              alt='small icon'
+              className='w-16 h-16 bg-white rounded-full p-2 object-contain'  // Adjust size of the icon
+            />
+          </div>
           <div className='absolute inset-0 flex justify-end m-3 card-img_hover'>
             <div
               onClick={() => window.open(source_code_link, "_blank")}
@@ -113,7 +114,7 @@ const Works = () => {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const projectsCollection = collection(db, "projects");
+      const projectsCollection = collection(db, "byteedocprojects");
       const snapshot = await getDocs(projectsCollection);
       const projectList = snapshot.docs.map((doc) => doc.data());
       setProjects(projectList);

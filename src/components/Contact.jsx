@@ -35,7 +35,7 @@ const Contact = () => {
 
     // Save to Firebase Firestore
     try {
-      const docRef = await addDoc(collection(db, "contacts"), {
+      const docRef = await addDoc(collection(db, "byteedoccontacts"), {
         name: form.name,
         email: form.email,
         message: form.message,
