@@ -14,16 +14,16 @@ const FeedbackCard = ({
   image,
 }) => (
   <motion.div
-    initial={{ opacity: 0, x: -100 }}  // Start from left side
-    animate={{ opacity: 1, x: 0 }}     // End at normal position
+    initial={{ opacity: 0, x: -100 }}
+    animate={{ opacity: 1, x: 0 }}
     transition={{
       type: "spring",
       stiffness: 100,
-      delay: index * 0.2,  // Add delay for staggered animation
+      delay: index * 0.2,
     }}
-    className="bg-black-200 p-10 rounded-3xl xs:w-[320px] w-full"
+    className="glass-panel p-10 rounded-3xl xs:w-[320px] w-full hover:shadow-glow transition-shadow duration-300"
   >
-    <p className="text-white font-black text-[48px]">"</p>
+    <p className="text-accent font-black text-[48px]">"</p>
 
     <div className="mt-1">
       <p className="text-white tracking-wider text-[18px]">{testimonial}</p>
@@ -31,9 +31,9 @@ const FeedbackCard = ({
       <div className="mt-7 flex justify-between items-center gap-1">
         <div className="flex-1 flex flex-col">
           <p className="text-white font-medium text-[16px]">
-            <span className="blue-text-gradient">@</span> {name}
+            <span className="text-accent">@</span> {name}
           </p>
-          <p className="mt-1 text-secondary text-[12px]">
+          <p className="mt-1 text-gray-400 text-[12px]">
             {designation} of {company}
           </p>
         </div>
@@ -41,7 +41,7 @@ const FeedbackCard = ({
         <img
           src={image}
           alt={`feedback_by-${name}`}
-          className="w-10 h-10 rounded-full object-cover"
+          className="w-10 h-10 rounded-full object-cover border border-accent/50"
         />
       </div>
     </div>

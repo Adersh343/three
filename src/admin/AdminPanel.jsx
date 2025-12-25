@@ -178,89 +178,106 @@ const AdminHeroSection = () => {
   };
 
   return (
-    <div className="admin-hero-section">
-      <h2 className="text-2xl font-bold mb-6">Edit Hero Section</h2>
+    <div className="w-full max-w-4xl mx-auto">
+      <h2 className="text-3xl font-bold mb-8 text-white border-b border-white/10 pb-4">Edit Hero Section</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label htmlFor="heading" className="block text-lg font-medium">Heading</label>
-          <input
-            type="text"
-            id="heading"
-            value={heading}
-            onChange={(e) => setHeading(e.target.value)}
-            placeholder="Enter Heading"
-            className="w-full p-3 mt-2 border rounded-md"
-          />
-        </div>
+      <div className="glass-panel p-8 rounded-2xl animate-fade-in-up">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="heading" className="block text-sm font-medium text-gray-400 mb-2">Heading</label>
+              <input
+                type="text"
+                id="heading"
+                value={heading}
+                onChange={(e) => setHeading(e.target.value)}
+                placeholder="Enter Heading"
+                className="w-full bg-black-100/50 border border-white/10 rounded-xl p-4 text-white focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all"
+              />
+            </div>
 
-        <div>
-          <label htmlFor="subheading" className="block text-lg font-medium">Subheading</label>
-          <input
-            type="text"
-            id="subheading"
-            value={subheading}
-            onChange={(e) => setSubheading(e.target.value)}
-            placeholder="Enter Subheading"
-            className="w-full p-3 mt-2 border rounded-md"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="imageFile" className="block text-lg font-medium">Upload Image</label>
-          <input
-            type="file"
-            id="imageFile"
-            onChange={handleImageChange}
-            className="w-full p-3 mt-2 border rounded-md"
-          />
-          {imageFile && <p className="mt-2">File Selected: {imageFile.name}</p>}
-        </div>
-
-        {imagePreview && (
-          <div className="mt-4">
-            <p className="text-lg font-medium">Image Preview:</p>
-            <img src={imagePreview} alt="Image Preview" className="w-full h-auto mt-2 border rounded-md" />
+            <div>
+              <label htmlFor="subheading" className="block text-sm font-medium text-gray-400 mb-2">Subheading</label>
+              <input
+                type="text"
+                id="subheading"
+                value={subheading}
+                onChange={(e) => setSubheading(e.target.value)}
+                placeholder="Enter Subheading"
+                className="w-full bg-black-100/50 border border-white/10 rounded-xl p-4 text-white focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all"
+              />
+            </div>
           </div>
-        )}
 
-        <div className="progress-bar mt-4">
-          {progress > 0 && <p>Upload Progress: {Math.round(progress)}%</p>}
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white p-3 rounded-md"
-          disabled={loading}
-        >
-          {loading ? "Updating..." : "Update Hero Section"}
-        </button>
-      </form>
-
-      {/* CV Upload and Preview */}
-      <div className="mt-8">
-        <h3 className="text-xl font-bold">Upload/Edit CV</h3>
-        <input
-          type="file"
-          onChange={handleCvChange}
-          className="w-full p-3 mt-2 border rounded-md"
-        />
-        {cvFile && <p className="mt-2">File Selected: {cvFile.name}</p>}
-        
-        {cvUrl && (
-          <div className="mt-4">
-            <a href={cvUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500">
-              View Current CV
-            </a>
-            <button
-              type="button"
-              onClick={handleDeleteCv}
-              className="ml-4 text-red-500"
-            >
-              Delete CV
-            </button>
+          <div>
+            <label htmlFor="imageFile" className="block text-sm font-medium text-gray-400 mb-2">Upload Hero Image</label>
+            <div className="border-2 border-dashed border-white/10 rounded-xl p-8 text-center hover:border-accent/50 transition-colors cursor-pointer relative">
+                <input
+                    type="file"
+                    id="imageFile"
+                    onChange={handleImageChange}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+                <div className="text-gray-400">
+                    {imageFile ? <span className="text-accent">{imageFile.name}</span> : "Click to Upload or Drag & Drop"}
+                </div>
+            </div>
           </div>
-        )}
+
+          {imagePreview && (
+            <div className="mt-4 p-4 bg-black-100/30 rounded-xl border border-white/5">
+              <p className="text-sm font-medium text-gray-400 mb-2">Preview:</p>
+              <img src={imagePreview} alt="Image Preview" className="h-48 object-contain rounded-lg mx-auto" />
+            </div>
+          )}
+
+          {progress > 0 && (
+              <div className="w-full bg-gray-700 rounded-full h-2.5 dark:bg-gray-700 mt-4">
+                 <div className="bg-accent h-2.5 rounded-full" style={{ width: `${progress}%` }}></div>
+              </div>
+          )}
+
+          <button
+            type="submit"
+            className="w-full primary-btn mt-6"
+            disabled={loading}
+          >
+            {loading ? "Updating..." : "Save Changes"}
+          </button>
+        </form>
+      </div>
+
+      {/* CV Upload Section */}
+      <div className="mt-12 glass-panel p-8 rounded-2xl">
+        <h3 className="text-xl font-bold text-white mb-6">CV Management</h3>
+        <div className="flex flex-col md:flex-row gap-6 items-start">
+             <div className="flex-1 w-full">
+                <label className="block text-sm font-medium text-gray-400 mb-2">Upload New CV</label>
+                 <div className="flex gap-4">
+                    <input
+                    type="file"
+                    onChange={handleCvChange}
+                    className="flex-1 bg-black-100/50 border border-white/10 rounded-xl p-3 text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent/10 file:text-accent hover:file:bg-accent/20"
+                    />
+                 </div>
+                 {cvFile && <p className="mt-2 text-sm text-accent">Selected: {cvFile.name}</p>}
+             </div>
+             
+             {cvUrl && (
+                <div className="flex flex-col gap-3 min-w-[200px]">
+                    <a href={cvUrl} target="_blank" rel="noopener noreferrer" className="px-4 py-3 bg-white/5 hover:bg-white/10 rounded-xl text-center text-sm font-medium text-blue-400 transition-colors border border-white/5">
+                    View Current CV
+                    </a>
+                    <button
+                    type="button"
+                    onClick={handleDeleteCv}
+                    className="px-4 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-xl text-sm font-medium transition-colors border border-red-500/20"
+                    >
+                    Delete CV
+                    </button>
+                </div>
+             )}
+        </div>
       </div>
     </div>
   );

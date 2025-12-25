@@ -4,12 +4,12 @@ import Footer from '../components/Footer';
 
 const   UserLayout = ({children}) => {
   return (
-    <div className="layout">
+    <div className="relative w-full overflow-hidden">
      <Navbar/>
-      <div className="content">
+      <main className="relative z-0">
         {children}
         <Outlet />
-      </div>
+      </main>
       <Footer/>
     </div>
   );

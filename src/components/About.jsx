@@ -8,18 +8,18 @@ import { motion } from "framer-motion"; // Import motion for animations
 const ServiceCard = ({ index, title, icon }) => (
   <motion.div
     className="w-full"
-    initial={{ opacity: 0, y: 20 }} // Initial position and opacity
-    animate={{ opacity: 1, y: 0 }}   // Final position and opacity
-    transition={{ duration: 0.5, delay: index * 0.1 }} // Delay for staggered effect
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: index * 0.1 }}
   >
-    <div className="w-full green-pink-gradient p-[1px] rounded-[20px] shadow-card">
-      <div className="bg-secondary/70 rounded-[20px] py-5 px-12 min-h-[280px] flex justify-evenly items-center flex-col">
+    <div className="w-full glass-panel p-[1px] rounded-[20px] shadow-card hover:shadow-glow transition-all duration-300">
+      <div className="bg-glass-dark rounded-[20px] py-10 px-12 min-h-[280px] flex justify-evenly items-center flex-col backdrop-blur-md border border-white/5 group hover:border-accent/50 transition-colors">
         <img
           src={icon}
-          alt="web-development"
-          className="w-24 p-3 rounded-full bg-white h-24 object-contain"
+          alt={title}
+          className="w-20 h-20 object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
         />
-        <h3 className="text-white text-[20px] font-bold text-center">
+        <h3 className="text-white text-[20px] font-bold text-center group-hover:text-accent transition-colors">
           {title}
         </h3>
       </div>

@@ -35,13 +35,16 @@ const Tech = () => {
   return (
     <div className="flex flex-row flex-wrap justify-center gap-10">
       {technologies.map((technology) => (
-        <div className="w-28 h-28 flex flex-col items-center" key={technology.id}>
+        <div 
+            className="w-28 h-28 flex flex-col items-center justify-center glass-panel p-4 hover:scale-110 transition-transform duration-300 cursor-pointer group" 
+            key={technology.id}
+        >
           <img
-            src={technology.icon} // Use the icon URL for each technology
-            alt={technology.name}  // Alt text based on the technology's name
-            className="w-full h-full object-contain" // Ensures image fits well
+            src={technology.icon} 
+            alt={technology.name} 
+            className="w-16 h-16 object-contain filter drop-shadow-[0_0_5px_rgba(255,255,255,0.2)] group-hover:drop-shadow-[0_0_10px_rgba(0,240,255,0.5)] transition-all" 
           />
-          <div className="text-white text-center mt-2">{technology.name}</div> {/* Display the technology's name */}
+          <div className="text-gray-300 text-sm font-medium mt-2 text-center group-hover:text-accent transition-colors">{technology.name}</div>
         </div>
       ))}
     </div>

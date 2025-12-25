@@ -16,18 +16,22 @@ const ExperienceCard = ({ experience }) => {
   return (
     <VerticalTimelineElement
       contentStyle={{
-        background: "#1d1836",
+        background: "rgba(255, 255, 255, 0.05)",
         color: "#fff",
+        backdropFilter: "blur(10px)",
+        border: "1px solid rgba(255, 255, 255, 0.1)",
+        borderRadius: "15px",
+        boxShadow: "0 0 10px rgba(0,0,0,0.3)"
       }}
-      contentArrowStyle={{ borderRight: "7px solid  #232631" }}
+      contentArrowStyle={{ borderRight: "7px solid  rgba(255, 255, 255, 0.05)" }}
       date={experience.date}
-      iconStyle={{ background: experience.iconBg }}
+      iconStyle={{ background: experience.iconBg, boxShadow: "0 0 20px rgba(112, 66, 248, 0.5)" }}
       icon={
         <div className='flex justify-center items-center w-full h-full'>
           <img
-            src={experience.image} // Ensure this is the correct image URL or path from Firestore
+            src={experience.image}
             alt={experience.company_name}
-            className='w-[60%] h-[60%] object-contain'
+            className='w-[70%] h-[70%] object-contain'
           />
         </div>
       }

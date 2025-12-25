@@ -27,22 +27,22 @@ const ProjectCard = ({
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="bg-tertiary p-5 rounded-2xl w-full cursor-pointer" onClick={toggleModal}
-
+        className="glass-panel p-5 rounded-2xl w-full cursor-pointer hover:-translate-y-2 transition-transform duration-300 border border-white/5 hover:border-accent/50 group" 
+        onClick={toggleModal}
       >
-        <div className='relative w-full cursor-pointer ' onClick={toggleModal}
-        >
-          <div className='w-full h-[200px]  bg-gradient-to-r from-secondary to-white flex justify-center items-center rounded-2xl'>
-            <img
-              src={imageUrl}  // Example icon URL
-              alt='small icon'
-              className='w-16 h-16 bg-white rounded-full p-2 object-contain'  // Adjust size of the icon
+        <div className='relative w-full h-[230px] rounded-2xl overflow-hidden'>
+             <img
+              src={imageUrl} 
+              alt={name}
+              className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-110' 
             />
-          </div>
-          <div className='absolute inset-0 flex justify-end m-3 card-img_hover'>
+          <div className='absolute inset-0 flex justify-end m-3 card-img_hover gap-2'>
             <div
-              onClick={() => window.open(source_code_link, "_blank")}
-              className='black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer'
+              onClick={(e) => {
+                e.stopPropagation();
+                window.open(githubLink, "_blank");
+              }}
+              className='black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer hover:scale-110 transition-transform border border-white/20'
             >
               <img
                 src={github}
@@ -50,53 +50,57 @@ const ProjectCard = ({
                 className='w-1/2 h-1/2 object-contain'
               />
             </div>
+             <div
+              onClick={(e) => {
+                e.stopPropagation();
+                window.open(liveDemoLink, "_blank");
+              }}
+              className='black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer hover:scale-110 transition-transform border border-white/20'
+            >
+               {/* Replace with a link icon if available, ensuring accessibility */}
+               <span className="text-[10px] text-white font-bold">LIVE</span>
+            </div>
           </div>
         </div>
 
         <div className="mt-5">
-          <h3 className="text-white font-bold text-[24px] truncate">{name}</h3>
-
-          {/* Truncated description with ellipsis */}
-          <p
-            onClick={toggleModal}
-            className="mt-2 text-secondary text-[14px] cursor-pointer line-clamp-1"
-          >
+          <h3 className="text-white font-bold text-[24px] truncate group-hover:text-accent transition-colors">{name}</h3>
+          <p className="mt-2 text-text-secondary text-[14px] line-clamp-2">
             {description}
           </p>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">
           {tags.map((tag, index) => (
-            <p key={`${name}-${index}`} className="text-[14px] text-white">
+            <span key={`${name}-${index}`} className="text-[12px] text-accent-purple bg-accent-purple/10 px-2 py-1 rounded-full border border-accent-purple/20">
               #{tag}
-            </p>
+            </span>
           ))}
-        </div>
-        <div className="mt-4 flex justify-between">
-          <a
-            href={liveDemoLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500"
-          >
-            Live Demo
-          </a>
         </div>
       </motion.div>
 
       {/* Modal for full description */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-tertiary p-5 rounded-2xl w-96">
-            <h3 className="text-white font-bold text-[24px]">{name}</h3>
-            <p className="mt-2 text-white text-[16px]">{description}</p>
-            <div className="mt-4 flex justify-end">
-              <button
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-50 p-4">
+          <div className="bg-[#100d25] p-8 rounded-2xl w-full max-w-2xl border border-white/10 shadow-2xl relative">
+             <button
                 onClick={toggleModal}
-                className="text-red-500 font-semibold text-[16px]"
-              >
-                Close
-              </button>
+                className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl transition-colors"
+             >
+                &times;
+             </button>
+            <h3 className="text-white font-bold text-[30px] mb-4 text-gradient">{name}</h3>
+            <div className="w-full h-[200px] mb-6 rounded-xl overflow-hidden">
+                 <img src={imageUrl} alt={name} className="w-full h-full object-cover"/>
+            </div>
+            <p className="text-gray-300 text-[16px] leading-[1.8]">{description}</p>
+             <div className="mt-6 flex gap-4">
+               {liveDemoLink && (
+                  <a href={liveDemoLink} target="_blank" rel="noopener noreferrer" className="primary-btn text-sm">Live Demo</a>
+               )}
+               {githubLink && (
+                  <a href={githubLink} target="_blank" rel="noopener noreferrer" className="px-6 py-3 rounded-full border border-white/20 text-white font-bold hover:bg-white/10 transition-colors text-sm">GitHub</a>
+               )}
             </div>
           </div>
         </div>
@@ -157,35 +161,20 @@ const Works = () => {
       </div>
 
       {/* Tabs for filtering */}
-      <div className="flex gap-6 mb-2 mt-2">
-        <button
-          className={`${activeTab === "all" ? "bg-blue-500 text-white" : "bg-gray-200"
-            } py-2 px-4 rounded-full`}
-          onClick={() => filterProjects("all")}
-        >
-          All
-        </button>
-        <button
-          className={`${activeTab === "web" ? "bg-blue-500 text-white" : "bg-gray-200"
-            } py-2 px-4 rounded-full`}
-          onClick={() => filterProjects("web")}
-        >
-          Web Apps
-        </button>
-        <button
-          className={`${activeTab === "mobile" ? "bg-blue-500 text-white" : "bg-gray-200"
-            } py-2 px-4 rounded-full`}
-          onClick={() => filterProjects("mobile")}
-        >
-          Mobile Apps
-        </button>
-        <button
-          className={`${activeTab === "other" ? "bg-blue-500 text-white" : "bg-gray-200"
-            } py-2 px-4 rounded-full`}
-          onClick={() => filterProjects("other")}
-        >
-          Others
-        </button>
+      <div className="flex gap-4 mb-2 mt-2 justify-center flex-wrap">
+        {["all", "web", "mobile", "other"].map((tab) => (
+            <button
+            key={tab}
+            className={`${
+                activeTab === tab 
+                ? "bg-accent text-primary shadow-[0_0_10px_#00F0FF]" 
+                : "bg-glass-white text-gray-300 hover:bg-white/20"
+            } py-2 px-6 rounded-full font-medium transition-all duration-300 capitalize`}
+            onClick={() => filterProjects(tab)}
+            >
+            {tab === "other" ? "Others" : tab === "all" ? "All" : `${tab} Apps`}
+            </button>
+        ))}
       </div>
 
       {/* Projects Grid */}

@@ -1,13 +1,26 @@
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { db} from '../../firebase';  // Import Firebase functions4
+import { db } from '../../firebase';
 import { collection, addDoc, serverTimestamp} from "firebase/firestore";
-
-import map from '../assets/map.svg';
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Sphere, MeshDistortMaterial, OrbitControls } from "@react-three/drei";
 
 import { styles } from "../styles";
 import { SectionWrapper } from "../hoc";
 import { slideIn } from "../utils/motion";
+
+const AnimatedGlobe = () => {
+    return (
+        <Sphere args={[1, 64, 64]} scale={2.5}>
+            <meshStandardMaterial
+                color="#2A0E61"
+                wireframe
+                transparent
+                opacity={0.3}
+            />
+        </Sphere>
+    )
+}
 
 const Contact = () => {
   const formRef = useRef();
@@ -33,16 +46,13 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Save to Firebase Firestore
     try {
-      const docRef = await addDoc(collection(db, "byteedoccontacts"), {
+      await addDoc(collection(db, "byteedoccontacts"), {
         name: form.name,
         email: form.email,
         message: form.message,
-        timestamp: serverTimestamp(), // Automatically add timestamp
+        timestamp: serverTimestamp(),
       });
-
-      console.log("Document written with ID: ", docRef.id);
 
       setLoading(false);
       alert("Thank you! Your message has been received.");
@@ -61,7 +71,7 @@ const Contact = () => {
 
   return (
     <div className={`xl:mt-12 flex xl:flex-row flex-col-reverse gap-10 overflow-hidden`}>
-      <motion.div variants={slideIn("left", "tween", 0.2, 1)} className='flex-[0.75] bg-black-100 p-8 rounded-2xl'>
+      <motion.div variants={slideIn("left", "tween", 0.2, 1)} className='flex-[0.75] glass-panel p-8 rounded-2xl'>
         <p className={styles.sectionSubText}>Get in touch</p>
         <h3 className={styles.sectionHeadText}>Contact.</h3>
 
@@ -74,7 +84,7 @@ const Contact = () => {
               value={form.name}
               onChange={handleChange}
               placeholder="What's your good name?"
-              className='bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
+              className='bg-glass-dark py-4 px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border border-white/10 focus:border-accent font-medium transition-colors'
             />
           </label>
           <label className='flex flex-col'>
@@ -85,7 +95,7 @@ const Contact = () => {
               value={form.email}
               onChange={handleChange}
               placeholder="What's your web address?"
-              className='bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
+              className='bg-glass-dark py-4 px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border border-white/10 focus:border-accent font-medium transition-colors'
             />
           </label>
           <label className='flex flex-col'>
@@ -96,18 +106,23 @@ const Contact = () => {
               value={form.message}
               onChange={handleChange}
               placeholder='What you want to say?'
-              className='bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
+              className='bg-glass-dark py-4 px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border border-white/10 focus:border-accent font-medium transition-colors'
             />
           </label>
 
-          <button type='submit' className='bg-tertiary py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary'>
+          <button type='submit' className='primary-btn w-fit shadow-md shadow-primary'>
             {loading ? "Sending..." : "Send"}
           </button>
         </form>
       </motion.div>
 
-      <motion.div variants={slideIn("right", "tween", 0.2, 1)} className='xl:flex-1 xl:h-auto flex items-center justify-center'>
-        <img src={map} alt="description of image" className="w-full object-cover" />
+      <motion.div variants={slideIn("right", "tween", 0.2, 1)} className='xl:flex-1 xl:h-auto md:h-[550px] h-[350px]'>
+         <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
+            <ambientLight intensity={0.5} />
+            <directionalLight position={[0, 0, 5]} intensity={1} />
+            <AnimatedGlobe />
+            <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={2} />
+         </Canvas>
       </motion.div>
     </div>
   );
